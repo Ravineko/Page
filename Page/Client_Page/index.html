@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grid Partitioning</title>
+    <style>
+        .grid {
+            display: grid;
+            margin-bottom: 10px;
+        }
+        .cell {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            cursor: pointer;
+        }
+        .cut {
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Grid Partitioning</h1>
+    <div>
+        <label for="rows">Rows:</label>
+        <input type="number" id="rows" name="rows">
+        <label for="columns">Columns:</label>
+        <input type="number" id="columns" name="columns">
+        <button onclick="createGrid()">Create Grid</button>
+    </div>
+    <div id="gridContainer" class="grid"></div> <!-- Added 'grid' class -->
+    <button onclick="sendData()">Calculate Parts</button>
+    <div id="result"></div>
+
+    <script>
+        function createGrid() {
+            var rows = parseInt(document.getElementById('rows').value);
+            var columns = parseInt(document.getElementById('columns').value);
+            var gridContainer = document.getElementById('gridContainer');
+            gridContainer.innerHTML = ''; // Clear previous grid
+
+            gridContainer.style.gridTemplateColumns = `repeat(${columns}, 30px)`;
+            for (var i = 0; i < rows; i++) {
+                for (var j = 0; j < columns; j++) {
+                    var cell = document.createElement('div');
+                    cell.className = 'cell';
+                    cell.id = `cell_${i}_${j}`;
+                    cell.onclick = toggleCutCell;
+                    gridContainer.appendChild(cell);
+                }
+            }
+        }
+
+        function toggleCutCell() {
+            this.classList.toggle('cut');
+        }
+
+    </script>
+       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+       <script src="script.js"></script>
+</body>
+</html>
