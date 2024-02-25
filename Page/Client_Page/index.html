@@ -30,7 +30,7 @@
         <input type="number" id="columns" name="columns">
         <button onclick="createGrid()">Create Grid</button>
     </div>
-    <div id="gridContainer" class="grid"></div> <!-- Added 'grid' class -->
+    <div id="gridContainer" class="grid"></div> 
     <button onclick="sendData()">Calculate Parts</button>
     <div id="result"></div>
 
@@ -39,7 +39,7 @@
             var rows = parseInt(document.getElementById('rows').value);
             var columns = parseInt(document.getElementById('columns').value);
             var gridContainer = document.getElementById('gridContainer');
-            gridContainer.innerHTML = ''; // Clear previous grid
+            gridContainer.innerHTML = '';
 
             gridContainer.style.gridTemplateColumns = `repeat(${columns}, 30px)`;
             for (var i = 0; i < rows; i++) {
