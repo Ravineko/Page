@@ -11,36 +11,45 @@ namespace Page.Controllers
             return View();
         }
 
-        [HttpPost("CalculateParts")]
-        public JsonResult CalculateParts([FromBody] CalculationRequest request)
+        [HttpGet("CalculateParts")]
+        public JsonResult CalculateParts(int rows, int columns, [FromQuery] Dictionary<string, int>[] CutCells)
         {
-            if (!ModelState.IsValid)
+            List<Cell> cutCellsList = new List<Cell>();
+
+            foreach (var cellDict in CutCells)
             {
-                return Json(new { errorMessage = "Invalid request data." });
+                if (cellDict.ContainsKey("row") && cellDict.ContainsKey("column"))
+                {
+                    int row = cellDict["row"];
+                    int column = cellDict["column"];
+                    cutCellsList.Add(new Cell { Row = row, Column = column });
+                }
             }
 
-            bool[,] isCut = new bool[request.Rows, request.Columns];
-
-            foreach (var cell in request.CutCells)
+            bool[,] isCut = new bool[rows, columns];
+            foreach (var cell in cutCellsList)
             {
                 isCut[cell.Row, cell.Column] = true;
             }
-
             int partsCount = 0;
-            for (int row = 0; row < request.Rows; row++)
+            for (int row = 0; row < rows; row++)
             {
-                for (int column = 0; column < request.Columns; column++)
+                for (int column = 0; column < columns; column++)
                 {
                     if (!isCut[row, column])
                     {
-                        DFS(isCut, row, column, request.Rows, request.Columns);
+                        DFS(isCut, row, column, rows, columns);
                         partsCount++;
                     }
                 }
             }
 
+
+
             return Json(new { partsCount });
         }
+
+
 
         private void DFS(bool[,] isCut, int row, int column, int rows, int columns)
         {
@@ -60,12 +69,7 @@ namespace Page.Controllers
                 DFS(isCut, newRow, newColumn, rows, columns);
             }
         }
-    }
+        
 
-    public class CalculationRequest
-    {
-        public List<Cell> CutCells { get; set; }
-        public int Rows { get; set; }
-        public int Columns { get; set; }
     }
 }

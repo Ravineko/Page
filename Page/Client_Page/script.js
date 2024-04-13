@@ -15,19 +15,23 @@ function sendData() {
         }
     });
 
-    var data = {
-        rows: rows,
-        columns: columns,
-        cutCells: selectedCells
-    };
+    var queryParams = [];
+    queryParams.push('Rows=' + rows);
+    queryParams.push('Columns=' + columns);
 
-    console.log("Data being sent to server:", data);
+    selectedCells.forEach(function(cell, index) {
+        queryParams.push('CutCells[' + index + '][row]=' + cell.row);
+        queryParams.push('CutCells[' + index + '][column]=' + cell.column);
+    });
+
+    var queryString = queryParams.join('&');
+
+    console.log("Data being sent to server:", queryString);
 
     $.ajax({
-        url: 'https://localhost:44307/CalculateParts',
-        type: 'POST',
+        url: 'https://localhost:44307/CalculateParts?' + queryString,
+        type: 'GET',
         contentType: 'application/json',
-        data: JSON.stringify(data),
         success: function(response) {
             $('#result').text('The grid will be partitioned into ' + response.partsCount + ' parts.');
         },
