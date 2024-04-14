@@ -10,11 +10,13 @@
     <div class="container">    
     <h1>Grid Partitioning</h1>
     <div>
+        <div id="validationMessage"></div>
         <label for="rows">Rows:</label>
-        <input type="number" id="rows" name="rows">
+        <input type="number" id="rows" name="rows" min="1" max="100">
         <label for="columns">Columns:</label>
-        <input type="number" id="columns" name="columns">
+        <input type="number" id="columns" name="columns" min="1" max="100">
         <button onclick="createGrid()">Create Grid</button>
+        
     </div>
     <div id="gridContainer" class="grid"></div> 
     <button onclick="sendData()">Calculate Parts</button>
@@ -23,11 +25,21 @@
 
 
     <script>
+
         function createGrid() {
             var rows = parseInt(document.getElementById('rows').value);
             var columns = parseInt(document.getElementById('columns').value);
             var gridContainer = document.getElementById('gridContainer');
             gridContainer.innerHTML = '';
+
+
+            
+            if (rows <= 0 || columns <= 0 || rows > 100 || columns > 100) {
+                validationMessage.innerText = "Rows and columns must be between 1 and 100.";
+                return;
+            } else {
+                validationMessage.innerText = ""; 
+            }
 
             gridContainer.style.gridTemplateColumns = `repeat(${columns}, 30px)`;
             for (var i = 0; i < rows; i++) {
@@ -44,7 +56,6 @@
         function toggleCutCell() {
             this.classList.toggle('cut');
         }
-
     </script>
        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
        <script src="script.js"></script>

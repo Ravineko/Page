@@ -71,3 +71,11 @@ button:hover {
     text-align: center;
     margin-bottom: 20px;
 }
+
+#validationMessage {
+    color: red; 
+    font-size: 14px; 
+    margin-top: 5px; 
+    text-align: center;
+    margin-bottom: 20px;
+}
