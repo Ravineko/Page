@@ -29,13 +29,18 @@ function sendData() {
         contentType: 'application/json',
         data: JSON.stringify(data),
         success: function(response) {
-            $('#result').text('The grid will be partitioned into ' + response.partsCount + ' parts.');
+            var message = 'The grid will be partitioned into ' + response.partsCount + ' parts. Sizes:';
+            response.partSizes.forEach(function(size, index) {
+                message += ' Part ' + (index + 1) + ': ' + size + ' cells.';
+            });
+            $('#result').text(message);
         },
         error: function(xhr, textStatus, errorThrown) {
             $('#result').text('Error: ' + textStatus);
         }
     });
 }
+
 
 
 
